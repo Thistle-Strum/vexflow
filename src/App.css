@@ -12,3 +12,19 @@ html { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: 
   margin: 0;
   padding: 0;
 }
+
+.vexbox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 800px;
+}
+
+#output {
+  height: 800px;
+}
+
+svg {
+  height: 800px;
+}
