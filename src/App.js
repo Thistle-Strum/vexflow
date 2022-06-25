@@ -22,10 +22,13 @@ function App() {
         ]}
       /> */}
     <Canned notes={notes} notes2={notes2}></Canned>
-    <button onClick={() => {
-      setNotes(_.shuffle(notes));
-      setNotes2(_.shuffle(notes2));
-    }}>permutate</button>
+    <button
+      onClick={() => {
+        setNotes(_.shuffle(notes));
+        setNotes2(_.shuffle(notes2));
+        }}
+    >permutate
+    </button>
     </div>
 
   )

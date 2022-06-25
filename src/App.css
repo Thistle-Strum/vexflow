@@ -13,18 +13,17 @@ html { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: 
   padding: 0;
 }
 
-.vexbox {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 800px;
+
+
+#output svg {
+  display: block;
+  margin: 0 auto;
+  height: 275px;
+  background-color: white;
+  padding-left: 40px
 }
 
-#output {
-  height: 800px;
-}
-
-svg {
-  height: 800px;
+button {
+  display: block;
+  margin: 0 auto;
 }
