@@ -13,7 +13,11 @@ html { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: 
   padding: 0;
 }
 
-
+html,
+body {
+  background-color: darkslategrey;
+  font-size: 125%;
+}
 
 #output svg {
   display: block;
@@ -27,3 +31,4 @@ button {
   display: block;
   margin: 0 auto;
 }
+
