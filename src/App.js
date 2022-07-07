@@ -12,28 +12,27 @@ function App() {
 
   const [notes, setNotes] = useState([0,1,2,3,4,5,6,7]);
   const [notes2, setNotes2] = useState([0,1,2,3,4,5,6,7]);
-  const [ playButton, setPlayButton ] = useState(false);
+  // const [ playButton, setPlayButton ] = useState(false);
 
   const play = () => {
-    setPlayButton(true);
-    Tone.Transport.stop()
-    Tone.Transport.cancel()
-    Tone.Transport.clear()
+    // console.log('yes')
+    // setPlayButton(true);
+    // Tone.Transport.stop()
+    // Tone.Transport.cancel()
+    // Tone.Transport.clear()
     Tone.start()
     Tone.Transport.start('+0.1');
   }
     
   const stop = () => {
-    
       Tone.Transport.stop()
       Tone.Transport.cancel();
-      setPlayButton(false);
+      // setPlayButton(false);
     }
 
   const permutate = () => {
-    // Tone.Transport.stop()
-    Tone.Transport.cancel()
-    Tone.Transport.clear()
+    Tone.Transport.cancel();
+    
   }
 
 
@@ -50,17 +49,19 @@ function App() {
     <Canned 
       notes={notes} 
       notes2={notes2}
-      setPlayButton={setPlayButton}
+      // setPlayButton={setPlayButton}
     />
     <button
       onClick={() => {
         setNotes(_.shuffle(notes));
         setNotes2(_.shuffle(notes2));
         permutate();
+        play()
         }}
     >permutate</button>
     <button
-      onClick={play}>Play</button>
+      onClick={play}
+    >Play</button>
     <button
       onClick={stop}>Stop</button>
     </div>
