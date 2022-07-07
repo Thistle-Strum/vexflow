@@ -5,8 +5,13 @@ import { Canned } from './components/Canned';
 import { useState } from 'react'
 import _ from 'lodash'
 import * as Tone from 'tone'
+import { PianoKeyboard } from '@musicenviro/ui-elements'
 
 
+
+setInterval(() => {
+  console.log(Tone.Transport.position)
+}, 100)
 
 function App() {
 
@@ -14,25 +19,32 @@ function App() {
   const [notes2, setNotes2] = useState([0,1,2,3,4,5,6,7]);
   // const [ playButton, setPlayButton ] = useState(false);
 
-  const play = () => {
+  const [audioStarted, setAudioStarted] = useState(false);
+
+  const play = async () => {
+    if (!audioStarted) {
+      await Tone.start();
+      console.log("context started");
+      setAudioStarted(true);
+    }
+
     // console.log('yes')
     // setPlayButton(true);
     // Tone.Transport.stop()
     // Tone.Transport.cancel()
     // Tone.Transport.clear()
-    Tone.start()
-    Tone.Transport.start('+0.1');
+    // Tone.Transport.cancel();
+    Tone.Transport.start();
   }
     
-  const stop = () => {
-      Tone.Transport.stop()
-      Tone.Transport.cancel();
+  const stop = () => {  
+      Tone.Transport.pause()
+      // Tone.Transport.cancel();
       // setPlayButton(false);
     }
 
   const permutate = () => {
     Tone.Transport.cancel();
-    
   }
 
 
@@ -64,6 +76,7 @@ function App() {
     >Play</button>
     <button
       onClick={stop}>Stop</button>
+    <PianoKeyboard />
     </div>
 
   )
