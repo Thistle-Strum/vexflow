@@ -32,3 +32,15 @@ button {
   margin: 0 auto;
 }
 
+.button-grid { 
+    width: 300px;
+    height: 300px;
+    margin: auto;
+}
+
+.keyboard-container {
+  width: 500px;
+  margin: auto;
+
+}
+
