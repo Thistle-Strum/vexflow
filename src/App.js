@@ -1,20 +1,18 @@
 import "./App.css";
-import { Score } from "./components/Score";
 import { Canned } from "./components/Canned";
 import { useState } from "react";
 import _ from "lodash";
 import * as Tone from "tone";
 import { ButtonGrid, PianoKeyboard } from "@musicenviro/ui-elements";
 
-setInterval(() => {
-  console.log(Tone.Transport.position);
-}, 100);
+
+// setInterval(() => {
+//   console.log(Tone.Transport.position);
+// }, 100);
 
 function App() {
   const [notes, setNotes] = useState([0, 1, 2, 3, 4, 5, 6, 7]);
   const [notes2, setNotes2] = useState([0, 1, 2, 3, 4, 5, 6, 7]);
-  // const [ playButton, setPlayButton ] = useState(false);
-
   const [audioStarted, setAudioStarted] = useState(false);
 
   const play = async () => {
@@ -23,40 +21,34 @@ function App() {
       console.log("context started");
       setAudioStarted(true);
     }
-
-    // console.log('yes')
-    // setPlayButton(true);
-    // Tone.Transport.stop()
-    // Tone.Transport.cancel()
-    // Tone.Transport.clear()
-    // Tone.Transport.cancel();
     Tone.Transport.start();
   };
 
   const stop = () => {
     Tone.Transport.pause();
-    // Tone.Transport.cancel();
-    // setPlayButton(false);
   };
 
   const permutate = () => {
     Tone.Transport.cancel();
   };
 
+ const onNoteDown = (keyDown, velocity, depressedKeys) => {
+  console.log(keyDown);
+  console.log(velocity);
+  console.log(depressedKeys);
+ }
+
+ const onNoteUp = (keyDown, velocity, depressedKeys) => {
+  console.log(keyDown);
+  console.log(velocity);
+  console.log(depressedKeys);
+ }
+
   return (
     <div>
-      {/* <Score
-        staves={[
-          ['g4', 'd4', 'e4', 'd4'],
-          ['a4', 'd4', 'e4', 'd4'],
-          ['a4', 'a4', 'b4', 'a4'],
-          ['d4', 'e4', ['g3', '2']]
-        ]}
-      /> */}
       <Canned
         notes={notes}
         notes2={notes2}
-        // setPlayButton={setPlayButton}
       />
       <button
         onClick={() => {
@@ -72,7 +64,10 @@ function App() {
       <button onClick={stop}>Stop</button>
       
       <div className="keyboard-container">
-        <PianoKeyboard />
+        <PianoKeyboard 
+          onNoteDown={onNoteDown}
+          onNoteUp={onNoteUp}
+          />
       </div>
       <ButtonGrid />
     </div>
