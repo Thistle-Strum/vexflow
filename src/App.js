@@ -1,5 +1,6 @@
 import "./App.css";
 import { Canned } from "./components/Canned";
+import  VexForKeyboard  from './components/VexForKeyboard';
 import { useState } from "react";
 import _ from "lodash";
 import * as Tone from "tone";
@@ -14,6 +15,7 @@ function App() {
   const [notes, setNotes] = useState([0, 1, 2, 3, 4, 5, 6, 7]);
   const [notes2, setNotes2] = useState([0, 1, 2, 3, 4, 5, 6, 7]);
   const [audioStarted, setAudioStarted] = useState(false);
+  const [keyboardNotes, setKeyboardNotes] = useState([]);
 
   const play = async () => {
     if (!audioStarted) {
@@ -36,12 +38,14 @@ function App() {
   console.log(keyDown);
   console.log(velocity);
   console.log(depressedKeys);
+  setKeyboardNotes(depressedKeys)
  }
 
  const onNoteUp = (keyDown, velocity, depressedKeys) => {
   console.log(keyDown);
   console.log(velocity);
   console.log(depressedKeys);
+  // setKeyboardNotes(depressedKeys)
  }
 
   return (
@@ -62,7 +66,7 @@ function App() {
       </button>
       <button onClick={play}>Play</button>
       <button onClick={stop}>Stop</button>
-      
+      <VexForKeyboard keyboardNotes={keyboardNotes} />
       <div className="keyboard-container">
         <PianoKeyboard 
           onNoteDown={onNoteDown}

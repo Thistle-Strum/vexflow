@@ -33,11 +33,14 @@ export function Canned({
 
     system.addStave({
       voices: [score.voice(score.notes(noteString))],
-    });
+    })
+    system.addConnector('singleLeft');
 
     system.addStave({
       voices: [score.voice(score.notes(noteString2))],
-    });
+    })
+    system.addConnector('singleLeft');
+    system.addConnector('singleRight');
     
     vf.draw();
   }, [notes, notes2]);
