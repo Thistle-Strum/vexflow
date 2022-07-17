@@ -47,19 +47,9 @@ export const VexForKeyboard = ({keyboardNotes}) => {
       keyboardNotes.concat(
         Array(+numerator - keyboardNotes.length).fill(72)) : keyboardNotes
 
-    const convertMidiValuesToNoteNames = noteSequence.map( note => {
-        const scale = ["C", "C#", "D", "D#","E", "F", "F#","G", "G#","A", "A#","B"];
-
-        return note >= 36 && note <= 47 ? scale[note % 12] + '/2' :
-        note >= 48 && note <= 59 ? scale[note % 12] + '/3' :
-        note >= 60 && note <= 71 ? scale[note % 12] + '/4' : 
-        scale[note % 12] + '/5';
-        }) 
-       console.log(convertMidiValuesToNoteNames)
-
-    
+    const noteNames = noteSequence.map(midiPitchToNoteName) 
        
-    const topNotes = convertMidiValuesToNoteNames.map( note => {
+    const topNotes = noteNames.map( note => {
         if(note[1] === '#' && note.charAt(note.length -1) === '4') {
           return new StaveNote({ keys: [note], duration: denominator })
           .addModifier(new Accidental("#"));
@@ -76,7 +66,7 @@ export const VexForKeyboard = ({keyboardNotes}) => {
           }
       });
 
-      const bottomNotes = convertMidiValuesToNoteNames.map( note => {
+      const bottomNotes = noteNames.map( note => {
         if(note[1] === '#' && note.charAt(note.length -1) === '2') {
           return new StaveNote({ keys: [note], duration: denominator, stem_direction: -1 })
           .addModifier(new Accidental("#"));
@@ -130,4 +120,11 @@ export const VexForKeyboard = ({keyboardNotes}) => {
 }
 
 export default VexForKeyboard;
+
+function midiPitchToNoteName(note) {
+    const scale = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+    const octave = Math.floor(note / 12) - 1;
+    return scale[note % 12] + '/' + octave;
+};
+
 
