@@ -1,20 +1,19 @@
 import './App.css';
-import { Canned } from './components/Canned';
-import VexForKeyboard from './components/VexForKeyboard';
+
+import Permutation from './components/permutation/Permutation';
+import Keyboard from './components/keyboard/Keyboard';
 import { useState } from 'react';
-import _ from 'lodash';
+import { Link, Routes, Route } from 'react-router-dom';
 import * as Tone from 'tone';
-import { ButtonGrid, PianoKeyboard } from '@musicenviro/ui-elements';
+import { ButtonGrid } from '@musicenviro/ui-elements';
 
 // setInterval(() => {
 //   console.log(Tone.Transport.position);
 // }, 100);
 
 function App() {
-    const [notes, setNotes] = useState([0, 1, 2, 3, 4, 5, 6, 7]);
-    const [notes2, setNotes2] = useState([0, 1, 2, 3, 4, 5, 6, 7]);
     const [audioStarted, setAudioStarted] = useState(false);
-    const [keyboardNotes, setKeyboardNotes] = useState([]);
+   
 
     const play = async () => {
         if (!audioStarted) {
@@ -33,40 +32,46 @@ function App() {
         Tone.Transport.cancel();
     };
 
-    const onNoteDown = (keyDown, velocity, depressedKeys) => {
-        console.log(keyDown);
-        console.log(velocity);
-        console.log(depressedKeys);
-        setKeyboardNotes(depressedKeys);
-    };
-
-    const onNoteUp = (keyDown, velocity, depressedKeys) => {
-        console.log(keyDown);
-        console.log(velocity);
-        console.log(depressedKeys);
-        // setKeyboardNotes(depressedKeys)
-    };
-
     return (
         <div>
-            <Canned notes={notes} notes2={notes2} />
-            <button
-                onClick={() => {
-                    setNotes(_.shuffle(notes));
-                    setNotes2(_.shuffle(notes2));
-                    permutate();
-                    play();
-                }}
-            >
-                permutate
-            </button>
-            <button onClick={play}>Play</button>
-            <button onClick={stop}>Stop</button>
-            <VexForKeyboard keyboardNotes={keyboardNotes} />
-            <div className="keyboard-container">
-                <PianoKeyboard onNoteDown={onNoteDown} onNoteUp={onNoteUp} />
-            </div>
-            <ButtonGrid />
+            <h1>Name of Application?</h1>
+            
+            <nav>
+        <li>
+            <Link to='/permutation'>Permutation</Link>
+        </li>
+        <li>
+            <Link to='/keyboard'>Keyboard</Link>
+        </li>
+        <li>
+            <Link to='/button-grid'>ButtonGrid</Link>
+        </li>
+    </nav>
+            <Routes>
+            
+                <Route 
+                    path='/permutation' 
+                    element={
+                        <Permutation permutate={permutate} play={play} stop={stop} />}
+                />
+                <Route
+                    path='/keyboard'
+                    element={
+                        <Keyboard />
+                    }
+                >
+                </Route>
+                <Route
+                    path='/button-grid' 
+                    element={
+                        <ButtonGrid />
+                    }  
+                >    
+                </Route>
+            </Routes>
+            
+          
+            
         </div>
     );
 }

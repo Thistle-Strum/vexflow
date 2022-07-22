@@ -1,5 +1,5 @@
 import * as Tone from 'tone';
-import { synth } from './synth';
+import { synth } from '../synth';
 
 export const PlayCanned = (notes, notes2) => {
     const scale = ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5'];
