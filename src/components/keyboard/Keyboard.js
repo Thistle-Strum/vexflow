@@ -13,21 +13,20 @@ const Keyboard = () => {
         setKeyboardNotes(depressedKeys);
     };
 
-
     const onNoteUp = (keyDown, velocity, depressedKeys) => {
         console.log(keyDown);
         console.log(velocity);
         console.log(depressedKeys);
     };
 
-  return (
-    <div>
-    <VexForKeyboard keyboardNotes={keyboardNotes} />
-    <div className="keyboard-container">
-        <PianoKeyboard onNoteDown={onNoteDown} onNoteUp={onNoteUp} />
-    </div>
-    </div>
-  )
-}
+    return (
+        <div>
+            <VexForKeyboard keyboardNotes={keyboardNotes} />
+            <div className="keyboard-container">
+                <PianoKeyboard onNoteDown={onNoteDown} onNoteUp={onNoteUp} />
+            </div>
+        </div>
+    );
+};
 
-export default Keyboard
+export default Keyboard;

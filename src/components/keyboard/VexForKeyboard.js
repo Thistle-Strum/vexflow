@@ -85,100 +85,95 @@ import { PlayCanned } from '../permutation/PlayCanned';
 //         // Create a voice in 4/4 and add above notes
 //         const bottomVoice = new Voice({ num_beats: +numerator, beat_value: +denominator }).addTickables(bottomNotes);
 
-export const VexForKeyboard = ({keyboardNotes}) => {
-  const [timeSignature, setTimeSignature] = useState('4/4');
-  
-  const handleTimeSig = (timeSignature) => {
-    setTimeSignature(timeSignature)
-  }
+export const VexForKeyboard = ({ keyboardNotes }) => {
+    const [timeSignature, setTimeSignature] = useState('4/4');
 
-  useEffect(() => {
-    const parent = document.getElementById("vexForKeyboard");
+    const handleTimeSig = timeSignature => {
+        setTimeSignature(timeSignature);
+    };
 
-    while (parent.firstChild) {
-      parent.removeChild(parent.firstChild);
-    }
+    useEffect(() => {
+        const parent = document.getElementById('vexForKeyboard');
 
-    const { Renderer, Stave } = Vex.Flow;
-    const div = document.getElementById("vexForKeyboard");
-    const renderer = new Renderer(div, Renderer.Backends.SVG);
-    renderer.resize(500, 250);
-    const ctx = renderer.getContext();
-    const topStave = new Stave(50, 40, 400);
-    const bottomStave = new Stave(50, 100, 400);
-    const brace = new Vex.Flow.StaveConnector(topStave, bottomStave).setType(3);
-    const lineLeft = new Vex.Flow.StaveConnector(topStave, bottomStave).setType(1);
-    const lineRight = new Vex.Flow.StaveConnector(topStave, bottomStave).setType(6);
+        while (parent.firstChild) {
+            parent.removeChild(parent.firstChild);
+        }
 
-    // topStave.addClef("treble")
-    // bottomStave.addClef("bass")
-    topStave.addClef("treble").addTimeSignature(timeSignature);
-    bottomStave.addClef("bass").addTimeSignature(timeSignature);
+        const { Renderer, Stave } = Vex.Flow;
+        const div = document.getElementById('vexForKeyboard');
+        const renderer = new Renderer(div, Renderer.Backends.SVG);
+        renderer.resize(500, 250);
+        const ctx = renderer.getContext();
+        const topStave = new Stave(50, 40, 400);
+        const bottomStave = new Stave(50, 100, 400);
+        const brace = new Vex.Flow.StaveConnector(topStave, bottomStave).setType(3);
+        const lineLeft = new Vex.Flow.StaveConnector(topStave, bottomStave).setType(1);
+        const lineRight = new Vex.Flow.StaveConnector(topStave, bottomStave).setType(6);
 
-    const accessTimeSig = timeSignature.split('/');
-    const numerator = accessTimeSig[0];
-    const denominator = accessTimeSig[1];
+        // topStave.addClef("treble")
+        // bottomStave.addClef("bass")
+        topStave.addClef('treble').addTimeSignature(timeSignature);
+        bottomStave.addClef('bass').addTimeSignature(timeSignature);
 
-    console.log(numerator, denominator)
+        const accessTimeSig = timeSignature.split('/');
+        const numerator = accessTimeSig[0];
+        const denominator = accessTimeSig[1];
 
+        console.log(numerator, denominator);
 
-    const noteSequence = keyboardNotes.length < +numerator ? 
-      keyboardNotes.concat(
-        Array(+numerator - keyboardNotes.length).fill(72)) : keyboardNotes
+        const noteSequence =
+            keyboardNotes.length < +numerator
+                ? keyboardNotes.concat(Array(+numerator - keyboardNotes.length).fill(72))
+                : keyboardNotes;
 
-    const convertMidiValuesToNoteNames = noteSequence.map( note => {
-        const scale = ["C", "C#", "D", "D#","E", "F", "F#","G", "G#","A", "A#","B"];
+        const convertMidiValuesToNoteNames = noteSequence.map(note => {
+            const scale = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 
-        return note >= 36 && note <= 47 ? scale[note % 12] + '/2' :
-        note >= 48 && note <= 59 ? scale[note % 12] + '/3' :
-        note >= 60 && note <= 71 ? scale[note % 12] + '/4' : 
-        scale[note % 12] + '/5';
-        }) 
-       console.log(convertMidiValuesToNoteNames)
+            return note >= 36 && note <= 47
+                ? scale[note % 12] + '/2'
+                : note >= 48 && note <= 59
+                ? scale[note % 12] + '/3'
+                : note >= 60 && note <= 71
+                ? scale[note % 12] + '/4'
+                : scale[note % 12] + '/5';
+        });
+        console.log(convertMidiValuesToNoteNames);
 
-    
-       
-    const topNotes = convertMidiValuesToNoteNames.map( note => {
-        if(note[1] === '#' && note.charAt(note.length -1) === '4') {
-          return new StaveNote({ keys: [note], duration: denominator })
-          .addModifier(new Accidental("#"));
+        const topNotes = convertMidiValuesToNoteNames.map(note => {
+            if (note[1] === '#' && note.charAt(note.length - 1) === '4') {
+                return new StaveNote({ keys: [note], duration: denominator }).addModifier(new Accidental('#'));
+            }
+            if (note[1] === '#' && note.charAt(note.length - 1) === '5') {
+                return new StaveNote({ keys: [note], duration: denominator }).addModifier(new Accidental('#'));
+            }
+            if (note.charAt(note.length - 1) === '4' || note.charAt(note.length - 1) === '5') {
+                return new StaveNote({ keys: [note], duration: denominator });
+            } else {
+                return new StaveNote({ keys: [note], duration: denominator + 'r' });
+            }
+        });
 
-        } if(note[1] === '#' && note.charAt(note.length -1) === '5') {
-          return new StaveNote({ keys: [note], duration: denominator })
-          .addModifier(new Accidental("#"));
+        const bottomNotes = convertMidiValuesToNoteNames.map(note => {
+            if (note[1] === '#' && note.charAt(note.length - 1) === '2') {
+                return new StaveNote({ keys: [note], duration: denominator, stem_direction: -1 }).addModifier(
+                    new Accidental('#')
+                );
+            }
+            if (note[1] === '#' && note.charAt(note.length - 1) === '3') {
+                return new StaveNote({ keys: [note], duration: denominator, stem_direction: -1 }).addModifier(
+                    new Accidental('#')
+                );
+            }
+            if (note.charAt(note.length - 1) === '2' || note.charAt(note.length - 1) === '3') {
+                return new StaveNote({ keys: [note], duration: denominator, stem_direction: -1 });
+            } else {
+                return new StaveNote({ keys: [note], duration: denominator + 'r' });
+            }
+        });
 
-        }if(note.charAt(note.length -1) === '4'|| note.charAt(note.length -1) === '5'){
-          return new StaveNote({ keys: [note], duration: denominator })
+        const topVoice = new Voice({ num_beats: +numerator, beat_value: +denominator }).addTickables(topNotes);
 
-        } else {
-          return new StaveNote({ keys: [note], duration: denominator + 'r'})          
-          }
-      });
-
-      const bottomNotes = convertMidiValuesToNoteNames.map( note => {
-        if(note[1] === '#' && note.charAt(note.length -1) === '2') {
-          return new StaveNote({ keys: [note], duration: denominator, stem_direction: -1 })
-          .addModifier(new Accidental("#"));
-
-        }if(note[1] === '#' && note.charAt(note.length -1) === '3') {
-          return new StaveNote({ keys: [note], duration: denominator, stem_direction: -1 })
-          .addModifier(new Accidental("#"));
-
-        }if(note.charAt(note.length -1) === '2'|| note.charAt(note.length -1) === '3'){
-          return new StaveNote({ keys: [note], duration: denominator, stem_direction: -1 });
-
-        } else {
-          return new StaveNote({ keys: [note], duration: denominator + 'r'})          
-          }
-      });
-
-      
-        const topVoice = new Voice({ num_beats: +numerator, beat_value: +denominator })
-        .addTickables(topNotes);
-
-
-        const bottomVoice = new Voice({ num_beats: +numerator, beat_value: +denominator })
-        .addTickables(bottomNotes);
+        const bottomVoice = new Voice({ num_beats: +numerator, beat_value: +denominator }).addTickables(bottomNotes);
 
         // Format and justify the notes to 400 pixels.
         new Formatter().joinVoices([topVoice]).format([topVoice], 350);
