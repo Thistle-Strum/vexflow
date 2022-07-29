@@ -2,14 +2,17 @@ import React from 'react';
 import { useState } from 'react';
 import VexForKeyboard from './VexForKeyboard';
 import { PianoKeyboard } from '@musicenviro/ui-elements';
+import EasyVexForKeyboard from './EasyVexForKeyboard';
 
 const Keyboard = () => {
     const [keyboardNotes, setKeyboardNotes] = useState([]);
+    const [note, setNote] = useState([]);
 
     const onNoteDown = (keyDown, velocity, depressedKeys) => {
         console.log(keyDown);
         console.log(velocity);
         console.log(depressedKeys);
+        setNote(keyDown)
         setKeyboardNotes(depressedKeys);
     };
 
@@ -21,7 +24,8 @@ const Keyboard = () => {
 
     return (
         <div>
-            <VexForKeyboard keyboardNotes={keyboardNotes} />
+           
+            <EasyVexForKeyboard note={note} />
             <div className="keyboard-container">
                 <PianoKeyboard onNoteDown={onNoteDown} onNoteUp={onNoteUp} />
             </div>
@@ -30,3 +34,4 @@ const Keyboard = () => {
 };
 
 export default Keyboard;
+// <VexForKeyboard keyboardNotes={keyboardNotes} />

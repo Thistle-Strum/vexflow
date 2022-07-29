@@ -12,6 +12,7 @@ import { ButtonGrid } from '@musicenviro/ui-elements';
 
 function App() {
     const [audioStarted, setAudioStarted] = useState(false);
+   
 
     const play = async () => {
         if (!audioStarted) {
@@ -32,24 +33,36 @@ function App() {
 
     return (
         <div>
-            <h1>Name of Application?</h1>
-
-            <nav>
+            <h1>musicenviro</h1>
+            <nav className='navbar'>
                 <li>
-                    <Link to="/permutation">Permutation</Link>
+                    <Link to='/'>Home</Link>
                 </li>
                 <li>
-                    <Link to="/keyboard">Keyboard</Link>
+                    <Link to='/permutation'>Permutation</Link>
                 </li>
                 <li>
-                    <Link to="/button-grid">ButtonGrid</Link>
+                    <Link to='/keyboard'>Keyboard</Link>
+                </li>
+                <li>
+                    <Link to='/button-grid'>ButtonGrid</Link>
                 </li>
             </nav>
             <Routes>
-                <Route path="/permutation" element={<Permutation permutate={permutate} play={play} stop={stop} />} />
-                <Route path="/keyboard" element={<Keyboard />}></Route>
-                <Route path="/button-grid" element={<ButtonGrid />}></Route>
-            </Routes>
+                <Route 
+                    path='/permutation' 
+                    element={
+                        <Permutation permutate={permutate} play={play} stop={stop} />}
+                />
+                <Route
+                    path='/keyboard'
+                    element={<Keyboard />}
+                />
+                <Route
+                    path='/button-grid' 
+                    element={<ButtonGrid />}   
+                />    
+            </Routes> 
         </div>
     );
 }

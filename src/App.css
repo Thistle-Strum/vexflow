@@ -19,6 +19,27 @@ body {
   font-size: 125%;
 }
 
+h1 {
+  color: rgb(154, 71, 82);
+  text-align: center;
+}
+
+li {
+  
+  list-style: none;
+}
+
+a {
+  color: rgb(145, 133, 177);
+  text-decoration: none;
+}
+.navbar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 #output svg {
   display: block;
   margin: 0 auto;
@@ -37,7 +58,32 @@ button {
   margin: 0 auto;
   height: 275px;
   background-color: white;
-  /* padding-left: 40px */
+}
+
+.easyKeyUi {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.uiInputs {
+  width: 100px;
+  text-align: center;
+}
+
+.timeSigCtrls,
+.voiceCtrls {
+  display: flex;
+  flex-direction: row;
+}
+
+#easyVexKey svg {
+  display: block;
+  margin: 0 auto;
+  height: 275px;
+  width: 500px;
+  background-color: white;
+  padding-left: 80px
 }
 
 .button-grid { 
