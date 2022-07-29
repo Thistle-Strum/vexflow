@@ -1,4 +1,5 @@
 import './App.css';
+import Home from './components/home/Home';
 import Permutation from './components/permutation/Permutation';
 import Keyboard from './components/keyboard/Keyboard';
 import { useState } from 'react';
@@ -12,7 +13,6 @@ import { ButtonGrid } from '@musicenviro/ui-elements';
 
 function App() {
     const [audioStarted, setAudioStarted] = useState(false);
-   
 
     const play = async () => {
         if (!audioStarted) {
@@ -34,35 +34,27 @@ function App() {
     return (
         <div>
             <h1>musicenviro</h1>
-            <nav className='navbar'>
+            <nav className="navbar">
                 <li>
-                    <Link to='/'>Home</Link>
+                    <Link to="/">Home</Link>
                 </li>
                 <li>
-                    <Link to='/permutation'>Permutation</Link>
+                    <Link to="/permutation">Permutation</Link>
                 </li>
                 <li>
-                    <Link to='/keyboard'>Keyboard</Link>
+                    <Link to="/keyboard">Keyboard</Link>
                 </li>
                 <li>
-                    <Link to='/button-grid'>ButtonGrid</Link>
+                    <Link to="/button-grid">ButtonGrid</Link>
                 </li>
             </nav>
+
             <Routes>
-                <Route 
-                    path='/permutation' 
-                    element={
-                        <Permutation permutate={permutate} play={play} stop={stop} />}
-                />
-                <Route
-                    path='/keyboard'
-                    element={<Keyboard />}
-                />
-                <Route
-                    path='/button-grid' 
-                    element={<ButtonGrid />}   
-                />    
-            </Routes> 
+                <Route path="/" element={<Home />} />
+                <Route path="/permutation" element={<Permutation permutate={permutate} play={play} stop={stop} />} />
+                <Route path="/keyboard" element={<Keyboard />} />
+                <Route path="/button-grid" element={<ButtonGrid />} />
+            </Routes>
         </div>
     );
 }

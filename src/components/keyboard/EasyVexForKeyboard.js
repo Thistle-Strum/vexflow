@@ -1,20 +1,20 @@
 import { useEffect, useState } from 'react';
-import { Vex, Renderer } from 'vexflow';
+import { Vex } from 'vexflow';
 import { VexForm } from './UI/VexForm';
 // import { PlayCanned } from './PlayCanned';
 
-// const { Factory } = Vex.Flow;
-
-
-
 const EasyVexForKeyboard = ({ note }) => {
     const [timeSignature, setTimeSignature] = useState('4/4');
+    const [numberOfVoices, setNumberOfVoices] = useState('2');
 
     const handleTimeSig = timeSignature => {
         setTimeSignature(timeSignature);
     };
 
-    console.log(timeSignature)
+    const handleNumberOfVoices = numberOfVoices => {
+        setNumberOfVoices(numberOfVoices);
+    };
+    console.log(numberOfVoices);
     useEffect(() => {
         const parent = document.getElementById('easyVexKey');
         while (parent.firstChild) {
@@ -31,23 +31,40 @@ const EasyVexForKeyboard = ({ note }) => {
         const score = vf.EasyScore();
         const system = vf.System();
 
-        system.addStave({
-            voices: [
-              score.voice(score.notes('C#5/q, B4, A4, G#4', {stem: 'up'})),
-              score.voice(score.notes('C#4/h, C#4', {stem: 'down'}))
-            ]
-          })
-          .addClef('treble').addTimeSignature(timeSignature)
-          
-          system.addStave({
-            voices: [
-              score.voice(score.notes('C#3/q, B2, A2/8, B2, C#3, D3', {clef: 'bass', stem: 'up'})),
-              score.voice(score.notes('C#2/h, C#2', {clef: 'bass', stem: 'down'}))
-            ]
-          }).addClef('bass').addTimeSignature(timeSignature);
-          
-          system.addConnector()
-          vf.draw();
+        const accessTimeSig = timeSignature.split('/');
+        const numerator = accessTimeSig[0];
+        const denominator = accessTimeSig[1];
+
+        console.log(numerator, denominator);
+
+        const fillTrebleStaveWithRests = (numerator, denominator) => {
+            return Array(+numerator).fill('B4/' + denominator + '/r');
+        };
+
+        const restsForTrebleClef = fillTrebleStaveWithRests(numerator, denominator).toString();
+
+        console.log(restsForTrebleClef);
+        system
+            .addStave({
+                voices: [score.voice(score.notes(restsForTrebleClef, { stem: 'up' }))]
+            })
+            .addClef('treble')
+            .addTimeSignature(timeSignature);
+
+        const fillBassStaveWithRests = (numerator, denominator) => {
+            return Array(+numerator).fill('D3/' + denominator + '/r');
+        };
+
+        const restsForBassClef = fillBassStaveWithRests(numerator, denominator).toString();
+        system
+            .addStave({
+                voices: [score.voice(score.notes(restsForBassClef, { clef: 'bass', stem: 'up' }))]
+            })
+            .addClef('bass')
+            .addTimeSignature(timeSignature);
+
+        system.addConnector();
+        vf.draw();
 
         // const noteString = [scale[notes[0]] + '/8', ...notes.slice(1).map(n => scale[n])].join();
 
@@ -57,7 +74,6 @@ const EasyVexForKeyboard = ({ note }) => {
         //     voices: [score.voice(score.notes())]
         // });
         // system.addConnector('singleLeft');
-
 
         // system.addStave({
         //     voices: [score.voice(score.notes(noteString2))]
@@ -73,9 +89,9 @@ const EasyVexForKeyboard = ({ note }) => {
     return (
         <div>
             <div id="easyVexKey"></div>
-            <VexForm handleTimeSig={handleTimeSig} />
+            <VexForm handleTimeSig={handleTimeSig} handelNumberOfVoices={handleNumberOfVoices} />
         </div>
     );
-}
+};
 
 export default EasyVexForKeyboard;

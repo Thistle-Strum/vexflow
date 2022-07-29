@@ -33,11 +33,18 @@ a {
   color: rgb(145, 133, 177);
   text-decoration: none;
 }
+
 .navbar {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.animationContainer {
+  height: 500px;
+  width: 500px;
+  margin: 0 auto;
 }
 
 #output svg {

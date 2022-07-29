@@ -12,7 +12,7 @@ const Keyboard = () => {
         console.log(keyDown);
         console.log(velocity);
         console.log(depressedKeys);
-        setNote(keyDown)
+        setNote(keyDown);
         setKeyboardNotes(depressedKeys);
     };
 
@@ -24,7 +24,6 @@ const Keyboard = () => {
 
     return (
         <div>
-           
             <EasyVexForKeyboard note={note} />
             <div className="keyboard-container">
                 <PianoKeyboard onNoteDown={onNoteDown} onNoteUp={onNoteUp} />
